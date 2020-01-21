@@ -14,7 +14,6 @@ import java.util.*;
  * {@code app.pickmaven.businessdays.Holiday} is an immutable object that wraps a date as a {@code LocalDate} object.
  * <p>
  *
- * @implSpec
  * This class is immutable and thread-safe
  *
  * @author Daniele Gubbiotti

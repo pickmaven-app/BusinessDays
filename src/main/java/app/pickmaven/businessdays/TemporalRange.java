@@ -8,7 +8,6 @@ import java.util.Objects;
  * The base unit to refer to a temporal range between two {@code LocalDate} objects.
  * <p>
  *
- * @implSpec
  * This class is immutable and thread-safe
  *
  * @author Daniele Gubbiotti

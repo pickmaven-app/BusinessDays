@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
  * the holidays for specific countries using the app.pickmaven.businessdays.PublicHolidayAPI of RapidAPI.
  * <p>
  *
- * @implSpec
  * This class is immutable and thread-safe.
  *
  */

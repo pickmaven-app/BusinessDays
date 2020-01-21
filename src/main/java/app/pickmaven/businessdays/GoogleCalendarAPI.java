@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
  * the holidays for specific countries using the app.pickmaven.businessdays.GoogleCalendarAPI of Google.
  * <p>
  *
- * @implSpec
  * This class is immutable and thread-safe.
  *
  */
@@ -88,7 +87,7 @@ public class GoogleCalendarAPI implements HolidaySearcher {
     /**
      * Returns a list of {@code LocalDate} objects representing the holidays for a specific country.
      *
-     * @param countryCode
+     * @param countryCode for which return holidays
      * @return list of holiday dates by country code
      */
     @Override

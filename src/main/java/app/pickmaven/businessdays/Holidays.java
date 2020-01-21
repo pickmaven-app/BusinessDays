@@ -16,7 +16,6 @@ import java.util.stream.Stream;
  * {@code List} interface such as {@code Add}, {@code Remove}, {@code Contains}, {@code Get} and others.
  * <p>
  *
- * @implSpec
  * The {@code List<app.pickmaven.businessdays.Holiday>} stored iside the {@code app.pickmaven.businessdays.Holidays} object is implemented by default as an {@code ArrayList<T>}.
  * The implemention can be set as {@code LinkedList<T>} calling the method {@code asLinkedList}.
  *

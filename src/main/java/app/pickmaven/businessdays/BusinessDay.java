@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
  * {@code app.pickmaven.businessdays.BusinessDay} stores an {@code app.pickmaven.businessdays.Holidays} object. It offers different construction methods for setting up some
  * configurations such as the weekdays that will be treated as holidays or also the temporal range to which the calculation is applied.
  * <p>
- *
- * @implSpec
  * This class is immutable and thread-safe.
  *
  * @author Daniele Gubbiotti
@@ -650,7 +648,7 @@ public class BusinessDay {
         /**
          * Adds the Easter Monday as {@code app.pickmaven.businessdays.Holiday} if is not already present in {@code app.pickmaven.businessdays.Holidays}.
          *
-         * @return
+         * @return this
          */
         public Builder computingEasterMonday() {
             Holiday easterMonday = null;
@@ -669,7 +667,7 @@ public class BusinessDay {
         /**
          * Adds the Christmas as {@code app.pickmaven.businessdays.Holiday} if is not already present in {@code app.pickmaven.businessdays.Holidays}.
          *
-         * @return
+         * @return this
          */
         public Builder computingChristmas() {
             Holiday christmas = Holiday.CHRISTMAS;
@@ -682,7 +680,7 @@ public class BusinessDay {
         /**
          * Sets saturday as business day for years or months passed as parameter; if no years or months are passed in it sets to true.
          *
-         * @param yearsOrMonths
+         * @param yearsOrMonths years or months to apply business saturday
          * @return this
          */
         public Builder withBusinessSaturday(Integer... yearsOrMonths) {
@@ -694,7 +692,7 @@ public class BusinessDay {
         /**
          * Sets saturday as business day for the {@code app.pickmaven.businessdays.TemporalRange} passed as parameter.
          *
-         * @param range
+         * @param range to apply business saturday
          * @return this
          */
         public Builder withBusinessSaturday(TemporalRange range) {
@@ -706,7 +704,7 @@ public class BusinessDay {
         /**
          * Sets sunday as business day for years or months passed as parameter; if no years or months are passed in it sets to true.
          *
-         * @param yearsOrMonths
+         * @param yearsOrMonths to apply business sunday
          * @return this
          */
         public Builder withBusinessSunday(Integer... yearsOrMonths) {
@@ -743,7 +741,7 @@ public class BusinessDay {
          * This method takes precedence over 'withBusinessSaturday()' and 'withBusinessSunday()' ones.
          *
          * @param range {@code app.pickmaven.businessdays.TemporalRange} to apply weekdays as holidays, not null
-         * @param weekDays
+         * @param weekDays to set as holiday
          * @return this
          */
         public Builder holidayOnWeekDays(TemporalRange range, DayOfWeek... weekDays) {
