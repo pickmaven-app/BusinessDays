@@ -103,7 +103,7 @@ public class Holiday {
 
     /**
      * Return instance of @code app.pickmaven.businessdays.Holiday} with the current date.
-     * @return
+     * @return {@code Holiday} today
      */
     public static Holiday today() {
         return HOLIDAY_NOW;
@@ -111,10 +111,11 @@ public class Holiday {
 
     /**
      * Return instance of {@code app.pickmaven.businessdays.Holiday} from year, month and day.
-     * @param year
-     * @param month
-     * @param day
-     * @return
+     *
+     * @param year of {@code Holiday}
+     * @param month of {@code Holiday}
+     * @param day of {@code Holiday}
+     * @return {@code Holiday}
      */
     public static Holiday of(int year, int month, int day) {
         return new Holiday(LocalDate.of(year, month, day));
@@ -122,7 +123,7 @@ public class Holiday {
 
     /**
      * Return an instance of {@code app.pickmaven.businessdays.Holiday} from the Easter date for the current year.
-     * @return
+     * @return Easter {@code Holiday}
      */
     private static Holiday getEaster() {
         LocalDate easter = HolidayUtils.getEaster(LocalDate.now().getYear());
@@ -130,8 +131,8 @@ public class Holiday {
     }
 
     /**
-     * Return an instance of {@code app.pickmaven.businessdays.Holiday} from the Easter Monday date for the current year.
-     * @return
+     * Return an instance of Holiday from the Easter Monday date for the current year.
+     * @return Easter Monday Holiday
      */
     private static Holiday getEasterMonday() {
         LocalDate easterMonday = HolidayUtils.getEasterMonday(LocalDate.now().getYear());
@@ -140,8 +141,8 @@ public class Holiday {
 
     /**
      * Return an instance of {@code app.pickmaven.businessdays.Holiday} from the Easter Monday date for the specified year.
-     * @param year
-     * @return
+     * @param year for which computing Easter Monday
+     * @return Easter Monday {@code Holiday}
      */
     public static Holiday getEasterMonday(int year) {
         LocalDate easterMonday = HolidayUtils.getEasterMonday(year);
@@ -150,7 +151,7 @@ public class Holiday {
 
     /**
      * Return an instance of {@code app.pickmaven.businessdays.Holiday} from the Christmas date.
-     * @return
+     * @return Christmas {@code Holiday}
      */
     private static Holiday getChristmasDay() {
         return new Holiday(LocalDate.of(LocalDate.now().getYear(), 12, 25));
@@ -160,7 +161,7 @@ public class Holiday {
 
     /**
      * Gets the holiday date.
-     * @return
+     * @return {@code LocalDate}
      */
     public LocalDate getDate() {
         return date;
@@ -168,7 +169,7 @@ public class Holiday {
 
     /**
      * Gets the year of holiday.
-     * @return
+     * @return year of date
      */
     public int getYear() {
         return date.getYear();
@@ -176,7 +177,7 @@ public class Holiday {
 
     /**
      * Gets the month of holiday.
-     * @return
+     * @return month of date
      */
     public int getMonth() {
         return date.getMonth().getValue();
@@ -184,7 +185,7 @@ public class Holiday {
 
     /**
      * Gets the day of holiday.
-     * @return
+     * @return day of date
      */
     public int getDay() {
         return date.getDayOfMonth();
@@ -194,8 +195,8 @@ public class Holiday {
 
     /**
      * Check if this holiday date is equal to another holiday date.
-     * @param o
-     * @return
+     * @param o {@code Holiday} to check equality
+     * @return true if o is equal to this
      */
     @Override
     public boolean equals(Object o) {
@@ -209,7 +210,7 @@ public class Holiday {
     /**
      * A hash code for this holiday date.
      *
-     * @return
+     * @return hashcode
      */
     @Override
     public int hashCode() {
@@ -218,7 +219,7 @@ public class Holiday {
 
     /**
      * Outputs the holiday date as date.
-     * @return
+     * @return string representing {@code Holiday}
      */
     @Override
     public String toString() {

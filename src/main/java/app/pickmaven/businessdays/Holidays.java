@@ -45,7 +45,7 @@ public class Holidays {
     /**
      * Constructor from {@code app.pickmaven.businessdays.Holidays}
      *
-     * @param holidays
+     * @param holidays from which get the holiday list
      */
     public Holidays(Holidays holidays) {
         this.holidays = new ArrayList<>(holidays.getHolidays());
@@ -54,7 +54,7 @@ public class Holidays {
     /**
      * Constructor from a list of {@code LocalDate}
      *
-     * @param holidayList
+     * @param holidayList list of {@code Holiday}
      */
     public Holidays (List<LocalDate> holidayList) {
         if (!linkedlistImpl) {

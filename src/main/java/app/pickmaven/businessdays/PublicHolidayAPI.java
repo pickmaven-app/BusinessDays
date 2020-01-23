@@ -54,7 +54,17 @@ public class PublicHolidayAPI implements HolidaySearcher {
     private Predicate<? super JsonObject> predicate = (p) -> true;
 
     /**
+     * By default logging response is false.
+     */
+    private boolean logResponse;
+
+
+    /**
      * Constructor
+     * <p>
+     *     In order to get an api key from RapidApi you have to log in to your Developer Dashboard
+     *     and create a new App; then just grab the api key and pass it in the constructor.
+     * </p>
      *
      * @param api_key personal api-key, not null
      */
@@ -63,7 +73,11 @@ public class PublicHolidayAPI implements HolidaySearcher {
     }
 
     /**
-     * Call this method for apply a {@code Predicate<? super JsonObject>} in order to filter the holidays
+     * Call this method for apply a {@code Predicate<? super JsonObject>} in order to filter the holidays.
+     * <p>
+     *     In order to know the fields that Api will give you in response you must call the activateLogResponse method,
+     *     this way you will see the system.out outputs of the response.
+     * </p>
      *
      * @param predicate for filtering holidays from the response
      * @return this
@@ -76,7 +90,9 @@ public class PublicHolidayAPI implements HolidaySearcher {
     /**
      * Returns a list of {@code LocalDate} representing the holidays for a specific country.
      * This method assumes you are searching holidays for current year.
+     * <p>
      *
+     * @see <a href='https://rapidapi.com/theapiguy/api/public-holiday/details'> for more details on this API</a>
      * @param countryCode the code of country you are searching for
      * @return a list of holiday dates
      * @throws IOException If connection to the api failed
@@ -84,6 +100,10 @@ public class PublicHolidayAPI implements HolidaySearcher {
     @Override
     public List<LocalDate> searchHolidaysFor(String countryCode) throws IOException {
         List<JsonObject> jsonObjects = callApi(countryCode);
+
+        if (logResponse) {
+            System.out.println(jsonObjects);
+        }
 
         return jsonObjects.stream()
                 .filter(predicate)
@@ -94,7 +114,8 @@ public class PublicHolidayAPI implements HolidaySearcher {
     /**
      * Returns a list of {@code LocalDate} representing the holidays for a specific country and for specific year.
      *
-     * @param countryCode
+     * @see <a href='https://rapidapi.com/theapiguy/api/public-holiday/details'> for more details on this API</a>
+     * @param countryCode for which search holidays
      * @param year for which you are searching holidays
      * @return a list of holiday dates
      * @throws IOException If connection to the api failed
@@ -102,6 +123,10 @@ public class PublicHolidayAPI implements HolidaySearcher {
     public List<LocalDate> searchHolidaysFor(String countryCode, int year) throws IOException {
         this.year = year;
         List<JsonObject> jsonObjects = callApi(countryCode);
+
+        if (logResponse) {
+            System.out.println(jsonObjects);
+        }
 
         return jsonObjects.stream()
                 .filter(predicate)
@@ -158,5 +183,12 @@ public class PublicHolidayAPI implements HolidaySearcher {
             }
 
         return jsonObjects;
+    }
+
+    /**
+     * Sets logging response to true.
+     */
+    public void activateLogResponse() {
+        this.logResponse = true;
     }
 }

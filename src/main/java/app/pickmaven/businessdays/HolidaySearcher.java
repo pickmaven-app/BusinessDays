@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This functional interface provides a single method for searching holidays based on country.
- * <p>
+ *
  */
 @FunctionalInterface
 public interface HolidaySearcher {

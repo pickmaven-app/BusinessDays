@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
  * {@code app.pickmaven.businessdays.BusinessDay} stores an {@code app.pickmaven.businessdays.Holidays} object. It offers different construction methods for setting up some
  * configurations such as the weekdays that will be treated as holidays or also the temporal range to which the calculation is applied.
  * <p>
+ *
+ * @implSpec
  * This class is immutable and thread-safe.
  *
  * @author Daniele Gubbiotti
@@ -57,15 +59,6 @@ public class BusinessDay {
      */
     private List<Integer> years = Collections.EMPTY_LIST;
 
-    /**
-     * List of years or months to which apply business saturday; default empty list.
-     */
-    private List<Integer> yearsOrMonths_forBusinessSaturday = Collections.EMPTY_LIST;
-
-    /**
-     * List of years or months to which apply business sunday; default empty list.
-     */
-    private List<Integer> yearsOrMonths_forBusinessSunday = Collections.EMPTY_LIST;
 
     //-----------------------------------------------------------------------
 
@@ -75,95 +68,6 @@ public class BusinessDay {
     private BusinessDay() { }
 
     //-----------------------------------------------------------------------
-    // CHECKING METHODS
-
-    /**
-     * Checks if year of starting date is among years(4 digits) and if month of starting
-     * date is among months(2 digits) in yearsOrMonths_forBusinessSaturday list; if list is empty it returns true.
-     *
-     * @return true if starting date year and month is in yearsOrMonths_forBusinessSaturday list
-     */
-    private boolean checkYearsOrMonthsForSaturday() {
-        if (yearsOrMonths_forBusinessSaturday.isEmpty()) {
-            return true;
-        }
-
-        List<Integer> years_forBusinessSaturday = getByCharNumber(yearsOrMonths_forBusinessSaturday, 4);
-        List<Integer> months_forBusinessSaturday = getByCharNumber(yearsOrMonths_forBusinessSaturday, 2);
-
-        boolean yearsChecked = true;
-        boolean monthsChecked = true;
-
-        if (!years_forBusinessSaturday.isEmpty()) {
-            yearsChecked =  years_forBusinessSaturday.stream()
-                    .anyMatch(y -> y.equals(startingDate.getYear()));
-        }
-
-        if (!months_forBusinessSaturday.isEmpty()) {
-            monthsChecked =  months_forBusinessSaturday.stream()
-                    .anyMatch(y -> y.equals(startingDate.getMonthValue()));
-        }
-
-        return yearsChecked && monthsChecked;
-    }
-
-    /**
-     * Checks if year of starting date is among years(4 digits) and if month of starting
-     * date is among months(2 digits) in yearsOrMonths_forBusinessSunday list; if list is empty it returns true.
-     *
-     * @return true if starting date year and month is in yearsOrMonths_forBusinessSunday list
-     */
-    private boolean checkYearsOrMonthsForSunday() {
-        if (yearsOrMonths_forBusinessSunday.isEmpty()) {
-            return true;
-        }
-
-        List<Integer> years_forBusinessSunday = getByCharNumber(yearsOrMonths_forBusinessSunday, 4);
-        List<Integer> months_forBusinessSunday = getByCharNumber(yearsOrMonths_forBusinessSunday, 2);
-
-        boolean yearsChecked = true;
-        boolean monthsChecked = true;
-
-        if (!years_forBusinessSunday.isEmpty()) {
-            yearsChecked =  years_forBusinessSunday.stream()
-                    .anyMatch(y -> y.equals(startingDate.getYear()));
-        }
-
-        if (!months_forBusinessSunday.isEmpty()) {
-            monthsChecked =  months_forBusinessSunday.stream()
-                    .anyMatch(y -> y.equals(startingDate.getMonthValue()));
-        }
-
-        return yearsChecked && monthsChecked;
-    }
-
-    /**
-     * Filters the list of integer by number of digits.
-     *
-     * @param yearsOrMonths
-     * @param digits
-     * @return a list of integers filtered by number of digits
-     */
-    private List<Integer> getByCharNumber(List<Integer> yearsOrMonths, int digits) {
-        assert yearsOrMonths != null : "yearsOrMonths must not be null";
-        assert digits == 4 | digits == 2 : "digits must be only 4 or 2";
-
-        return yearsOrMonths.stream()
-                .filter(el -> normalizeNumber(el).length() == digits)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Normalizes the integer adding a leading '0' where is the case, id est where is a 1 digit number.
-     *
-     * @param el number to be normalized
-     * @return String value normalized
-     */
-    private String normalizeNumber(Integer el) {
-        String value = String.valueOf(el);
-        return value.length() == 1 ? String.format("0%s", value) : value;
-    }
-
     // GET NEXT BUSINESS DAY METHODS
 
     /**
@@ -291,7 +195,7 @@ public class BusinessDay {
      * @return next business day as {@code LocalDate}
      */
     public LocalDate asLocalDate() {
-           return nextBusinessDay;
+        return nextBusinessDay;
     }
 
     /**
@@ -368,7 +272,7 @@ public class BusinessDay {
         LocalDateTime dataNextWorkingDay = LocalDateTime.parse(asString("yyyy-MM-dd") + " " + hours + ":" + minutes,
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
-       return Duration.between(oggi, dataNextWorkingDay);
+        return Duration.between(oggi, dataNextWorkingDay);
     }
 
     /**
@@ -425,7 +329,7 @@ public class BusinessDay {
             HolidayUtils.checkYearsValidity(years);
             holidayList = holidays.stream()
                     .filter( y -> y.getDate().isAfter(LocalDate.now())
-                                && Arrays.asList(years).contains(y.getYear()) )
+                            && Arrays.asList(years).contains(y.getYear()) )
                     .map(Holiday::getDate)
                     .collect(Collectors.toList());
 
@@ -491,7 +395,7 @@ public class BusinessDay {
      * @return {@code app.pickmaven.businessdays.Holidays}
      */
     private Holidays getHolidays() {
-            return holidays;
+        return holidays;
     }
 
     /**
@@ -516,8 +420,7 @@ public class BusinessDay {
      * @param yearsOrMonths Integer[] years or months to apply the business saturday
      */
     private void setBusinessSaturday(Integer... yearsOrMonths) {
-        this.yearsOrMonths_forBusinessSaturday = Arrays.asList(yearsOrMonths);
-        isBusinessSaturday = checkYearsOrMonthsForSaturday();
+        isBusinessSaturday = HolidayUtils.checkYearsOrMonths(Arrays.asList(yearsOrMonths), startingDate);
     }
 
     /**
@@ -542,8 +445,7 @@ public class BusinessDay {
      * @param yearsOrMonths Integer[] years or months to apply the business sunday
      */
     private void setBusinessSunday(Integer... yearsOrMonths) {
-        this.yearsOrMonths_forBusinessSunday = Arrays.asList(yearsOrMonths);
-        isBusinessSunday = checkYearsOrMonthsForSunday();
+        isBusinessSunday = HolidayUtils.checkYearsOrMonths(Arrays.asList(yearsOrMonths), startingDate);
     }
 
     /**
@@ -648,7 +550,7 @@ public class BusinessDay {
         /**
          * Adds the Easter Monday as {@code app.pickmaven.businessdays.Holiday} if is not already present in {@code app.pickmaven.businessdays.Holidays}.
          *
-         * @return this
+         * @return
          */
         public Builder computingEasterMonday() {
             Holiday easterMonday = null;
@@ -667,7 +569,7 @@ public class BusinessDay {
         /**
          * Adds the Christmas as {@code app.pickmaven.businessdays.Holiday} if is not already present in {@code app.pickmaven.businessdays.Holidays}.
          *
-         * @return this
+         * @return
          */
         public Builder computingChristmas() {
             Holiday christmas = Holiday.CHRISTMAS;
@@ -680,7 +582,7 @@ public class BusinessDay {
         /**
          * Sets saturday as business day for years or months passed as parameter; if no years or months are passed in it sets to true.
          *
-         * @param yearsOrMonths years or months to apply business saturday
+         * @param yearsOrMonths
          * @return this
          */
         public Builder withBusinessSaturday(Integer... yearsOrMonths) {
@@ -692,7 +594,7 @@ public class BusinessDay {
         /**
          * Sets saturday as business day for the {@code app.pickmaven.businessdays.TemporalRange} passed as parameter.
          *
-         * @param range to apply business saturday
+         * @param range
          * @return this
          */
         public Builder withBusinessSaturday(TemporalRange range) {
@@ -704,7 +606,7 @@ public class BusinessDay {
         /**
          * Sets sunday as business day for years or months passed as parameter; if no years or months are passed in it sets to true.
          *
-         * @param yearsOrMonths to apply business sunday
+         * @param yearsOrMonths
          * @return this
          */
         public Builder withBusinessSunday(Integer... yearsOrMonths) {
@@ -741,7 +643,7 @@ public class BusinessDay {
          * This method takes precedence over 'withBusinessSaturday()' and 'withBusinessSunday()' ones.
          *
          * @param range {@code app.pickmaven.businessdays.TemporalRange} to apply weekdays as holidays, not null
-         * @param weekDays to set as holiday
+         * @param weekDays
          * @return this
          */
         public Builder holidayOnWeekDays(TemporalRange range, DayOfWeek... weekDays) {

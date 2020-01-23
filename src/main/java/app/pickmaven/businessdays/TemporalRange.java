@@ -36,7 +36,7 @@ public class TemporalRange {
 
     /**
      * Gets the starting date of {@code app.pickmaven.businessdays.TemporalRange}
-     * @return
+     * @return {@code LocalDate} of startingDate
      */
     public LocalDate getStartingDate() {
         return startingDate;
@@ -52,7 +52,7 @@ public class TemporalRange {
 
     /**
      * Gets the ending date of {@code app.pickmaven.businessdays.TemporalRange}
-     * @return
+     * @return endingDate
      */
     public LocalDate getEndingDate() {
         return endingDate;
@@ -99,7 +99,7 @@ public class TemporalRange {
     /**
      * Computes the hashcode
      *
-     * @return
+     * @return hashcode
      */
     @Override
     public int hashCode() {
@@ -109,7 +109,7 @@ public class TemporalRange {
     /**
      * Checks if two {@code app.pickmaven.businessdays.TemporalRange} objects are equal. It compares the value of startingDate and endingDate.
      *
-     * @param o
+     * @param o {@code TemporalRange} to check equality
      * @return true if the two objects are equal
      */
     @Override
@@ -125,7 +125,7 @@ public class TemporalRange {
     /**
      * Outputs the temporal range from starting date to ending one.
      *
-     * @return
+     * @return string representing {@code TemporalRange}
      */
     @Override
     public String toString() {

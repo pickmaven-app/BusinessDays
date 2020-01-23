@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
  *
  * This class is immutable and thread-safe.
  *
+ *
  */
 public class GoogleCalendarAPI implements HolidaySearcher {
     /**
@@ -54,7 +55,18 @@ public class GoogleCalendarAPI implements HolidaySearcher {
     private Predicate<? super Event> predicate = (p) -> true;
 
     /**
+     * By default logging response is false.
+     */
+    private boolean logResponse;
+
+
+    /**
      * Constructor.
+     * <p>
+     * In order to create the json file with the Google Calendar Api service token you have to create
+     * credentials from Google Developer Console (https://console.developers.google.com). Just have to create a project,
+     * click on Create Credentials and select the Account Service Key type; finally
+     * select the service and the json type and you will get the json file downloaded.
      *
      * @param token_path the token path of json file
      */
@@ -65,6 +77,10 @@ public class GoogleCalendarAPI implements HolidaySearcher {
     /**
      * Apply the {@code Predicate<? super Event} in order to filter the holidays.
      *
+     *  <p>
+     *      In order to know the fields that Api will give you in response you must call the activateLogResponse method,
+     *      this way you will see the system.out outputs of the response.
+     * </p>
      * @param predicate to apply in order to filter the holidays given as response from the Google Calendar Api
      * @return this
      */
@@ -86,7 +102,11 @@ public class GoogleCalendarAPI implements HolidaySearcher {
 
     /**
      * Returns a list of {@code LocalDate} objects representing the holidays for a specific country.
-     *
+     * <p>
+     *     You can find a list of county code in the format 'language.country' under
+     *     <a href="file:../resources/GoogleCalendarAPI_CountryCodeList.txt">/resources/GoogleCalendarAPI_CountryCodeList.txt</a>.
+     *     You can change the language part as you prefer. By default is english.
+     * </p>
      * @param countryCode for which return holidays
      * @return list of holiday dates by country code
      */
@@ -122,10 +142,14 @@ public class GoogleCalendarAPI implements HolidaySearcher {
         String pageToken = null;
         do {
             Events events = service.events().list(countryCode + "#holiday@group.v.calendar.google.com").setPageToken(pageToken).execute();
-            //onHolidayChecked(events.getItems()); //result return here (events.getItems())
             List<Event> distinctEvents = events.getItems().stream()
                     .filter( distinctByKey(p -> p.getStart().getDate() ) )
                     .collect(Collectors.toList());
+
+            if (logResponse) {
+                System.out.println(distinctEvents);
+            }
+
             holidays = distinctEvents.stream()
                     .filter(predicate)
                     .map(p -> p.getStart().getDate()).distinct()
@@ -145,4 +169,10 @@ public class GoogleCalendarAPI implements HolidaySearcher {
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
+    /**
+     * Sets the response logging to true.
+     */
+    public void activateLogResponse() {
+        this.logResponse = true;
+    }
 }
