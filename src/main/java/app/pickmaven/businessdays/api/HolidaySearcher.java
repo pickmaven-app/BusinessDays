@@ -1,4 +1,4 @@
-package app.pickmaven.businessdays;
+package app.pickmaven.businessdays.api;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

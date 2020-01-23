@@ -1,4 +1,4 @@
-package app.pickmaven.businessdays;
+package app.pickmaven.businessdays.api;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -25,8 +25,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * This class implements {@code app.pickmaven.businessdays.HolidaySearcher} interface for getting a list of {@code LocalDate} objects representing
- * the holidays for specific countries using the app.pickmaven.businessdays.GoogleCalendarAPI of Google.
+ * This class implements {@code app.pickmaven.businessdays.api.HolidaySearcher} interface for getting a list of {@code LocalDate} objects representing
+ * the holidays for specific countries using the app.pickmaven.businessdays.api.GoogleCalendarAPI of Google.
  * <p>
  *
  * This class is immutable and thread-safe.

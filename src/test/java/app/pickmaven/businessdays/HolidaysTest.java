@@ -1,9 +1,7 @@
 package app.pickmaven.businessdays;
 
-import app.pickmaven.businessdays.GoogleCalendarAPI;
-import app.pickmaven.businessdays.Holiday;
-import app.pickmaven.businessdays.Holidays;
-import app.pickmaven.businessdays.PublicHolidayAPI;
+import app.pickmaven.businessdays.api.GoogleCalendarAPI;
+import app.pickmaven.businessdays.api.PublicHolidayAPI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package app.pickmaven.businessdays;
+package app.pickmaven.businessdays.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,8 +20,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * This class implements {@code app.pickmaven.businessdays.HolidaySearcher} interface for getting a list of {@code LocalDate} objects representing
- * the holidays for specific countries using the app.pickmaven.businessdays.PublicHolidayAPI of RapidAPI.
+ * This class implements {@code app.pickmaven.businessdays.api.HolidaySearcher} interface for getting a list of {@code LocalDate} objects representing
+ * the holidays for specific countries using the app.pickmaven.businessdays.api.PublicHolidayAPI of RapidAPI.
  * <p>
  *
  * This class is immutable and thread-safe.
